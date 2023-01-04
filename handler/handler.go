@@ -26,6 +26,8 @@ func (e ExpensesHandler) MessageHandler(event *linebot.Event, message string) {
 		e.summary(message, event)
 	case "รายการ", "list":
 		e.list(message, event)
+	case "hi", "สวัสดี", "คำสั่ง":
+		e.hello(event)
 	default:
 		e.save(message, event)
 	}
@@ -73,6 +75,23 @@ func (e ExpensesHandler) summary(message string, event *linebot.Event) {
 		return
 	}
 	e.sendMessage(event.ReplyToken, res.Message)
+}
+
+func (e ExpensesHandler) hello(event *linebot.Event) {
+	s1 := "รายการคำสั่ง"
+	s2 := "เพิ่มรายการ รับ/จ่าย \n- [รับ/จ่าย]/จำนวน/ประเภท \n- จ่าย/100/ขนม"
+	s3 := "สรุป \n- สรุป \n- สรุป 2/2023"
+	s4 := "รายการ \n- รายการ \n- รายการ 2/2023"
+
+	s := []string{s1, s2, s3, s4}
+
+	lineMessages := []linebot.SendingMessage{}
+	for _, v := range s {
+		lineMessages = append(lineMessages, linebot.NewTextMessage(v))
+	}
+	if _, err := e.linebot.ReplyMessage(event.ReplyToken, lineMessages...).Do(); err != nil {
+		log.Print(err)
+	}
 }
 
 func (e ExpensesHandler) sendMessage(replyToken string, message string) {
