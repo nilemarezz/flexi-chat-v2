@@ -26,7 +26,7 @@ func (e ExpensesHandler) MessageHandler(event *linebot.Event, message string) {
 		e.summary(message, event)
 	case "รายการ", "list":
 		e.list(message, event)
-	case "hi", "สวัสดี", "คำสั่ง":
+	case "hi", "สวัสดี", "คำสั่ง", "Hi":
 		e.hello(event)
 	default:
 		e.save(message, event)

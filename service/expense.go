@@ -49,14 +49,15 @@ func (service ExpensesService) Save(message string, user string) (*dto.SaveRespo
 		return nil, errors.New("ค่าสองเป็นตัวเลขงับ 😭")
 	}
 
-	date := time.Now()
+	date := time.Now().Local()
 
 	// get sheet name by date now (1_2023)
 	sheetName := fmt.Sprintf("%d_%d", date.Month(), date.Year())
 
 	// create record to insert
+	d := date.Format("2006-01-02") + " - " + date.Format("15:04:05")
 	records := [][]interface{}{{
-		date.Format("2006-01-02 15:04:05"),
+		d,
 		user,
 		message,
 		s[0],
@@ -64,6 +65,7 @@ func (service ExpensesService) Save(message string, user string) (*dto.SaveRespo
 		s[2],
 	}}
 
+	fmt.Println(records)
 	// insert row at sheet
 	err := service.spreadsheet.InsertRow(sheetName, records)
 	if err != nil {
