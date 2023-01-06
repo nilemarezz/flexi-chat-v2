@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	cloud.google.com/go/vision v1.2.0
+	github.com/gorilla/mux v1.8.0
 	github.com/irfansofyana/go-aztro-api-wrapper v0.1.1
 	github.com/johnfercher/maroto v0.39.0
 	github.com/joho/godotenv v1.4.0
