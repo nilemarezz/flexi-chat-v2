@@ -93,11 +93,11 @@ func (e ExpensesHandler) horosz(event *linebot.Event) {
 
 	lineMessages := []linebot.SendingMessage{}
 
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 4; i++ {
 		lineMessages = append(lineMessages, linebot.NewTextMessage(res[i]))
 	}
 
-	lineMessages = append(lineMessages, linebot.NewImageMessage(res[5], res[5]))
+	lineMessages = append(lineMessages, linebot.NewImageMessage(res[4], res[4]))
 
 	if _, err := e.linebot.ReplyMessage(event.ReplyToken, lineMessages...).Do(); err != nil {
 		log.Print(err)

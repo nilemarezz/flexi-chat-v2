@@ -37,7 +37,6 @@ func (HoroszService) Run() ([]string, error) {
 		todayHoroscope.Description,
 		"Lucky Number : " + todayHoroscope.LuckyNumber,
 		"Lucky Time : " + todayHoroscope.LuckyTime,
-		"Mood : " + todayHoroscope.Mood,
 		"Lucky Color : " + todayHoroscope.Color,
 		"https://singlecolorimage.com/get/" + color + "/400x100.png",
 	}, nil
