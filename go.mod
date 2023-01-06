@@ -3,21 +3,27 @@ module github.com/nilemarezz/flexi-chat-v2
 go 1.18
 
 require (
-	github.com/gorilla/mux v1.8.0
+	cloud.google.com/go/vision v1.2.0
+	github.com/irfansofyana/go-aztro-api-wrapper v0.1.1
 	github.com/johnfercher/maroto v0.39.0
 	github.com/joho/godotenv v1.4.0
 	github.com/karmdip-mi/go-fitz v0.0.0-20210702102225-a530a79566e9
 	github.com/line/line-bot-sdk-go/v7 v7.18.0
+	golang.org/x/image v0.0.0-20190910094157-69e4b8554b2a
 	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783
 	google.golang.org/api v0.105.0
 )
 
 require (
+	cloud.google.com/go v0.105.0 // indirect
 	cloud.google.com/go/compute v1.13.0 // indirect
 	cloud.google.com/go/compute/metadata v0.2.2 // indirect
+	cloud.google.com/go/longrunning v0.3.0 // indirect
+	cloud.google.com/go/vision/v2 v2.6.0 // indirect
 	github.com/boombuler/barcode v1.0.1 // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.2.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.7.0 // indirect

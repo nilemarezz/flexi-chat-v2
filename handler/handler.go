@@ -10,12 +10,13 @@ import (
 )
 
 type ExpensesHandler struct {
-	linebot *linebot.Client
-	service service.ExpensesService
+	linebot        *linebot.Client
+	expenseService service.ExpensesService
+	horoszService  *service.HoroszService
 }
 
-func NewExpensesHandler(linebot *linebot.Client, service service.ExpensesService) ExpensesHandler {
-	return ExpensesHandler{linebot: linebot, service: service}
+func NewExpensesHandler(linebot *linebot.Client, service service.ExpensesService, horosz *service.HoroszService) ExpensesHandler {
+	return ExpensesHandler{linebot: linebot, expenseService: service, horoszService: horosz}
 }
 
 func (e ExpensesHandler) MessageHandler(event *linebot.Event, message string) {
@@ -28,6 +29,8 @@ func (e ExpensesHandler) MessageHandler(event *linebot.Event, message string) {
 		e.list(message, event)
 	case "hi", "สวัสดี", "คำสั่ง", "Hi":
 		e.hello(event)
+	case "ดูดวง":
+		e.horosz(event)
 	default:
 		e.save(message, event)
 	}
@@ -35,7 +38,7 @@ func (e ExpensesHandler) MessageHandler(event *linebot.Event, message string) {
 }
 
 func (e ExpensesHandler) save(message string, event *linebot.Event) {
-	res, err := e.service.Save(message, event.Source.UserID)
+	res, err := e.expenseService.Save(message, event.Source.UserID)
 
 	if err != nil {
 		e.sendMessageWithExample(event.ReplyToken, err.Error(), "คำสั่ง -> [รับ,จ่าย]/จำนวน/รายการ\nตย. -> จ่าย/200/ค่ารถ")
@@ -48,7 +51,7 @@ func (e ExpensesHandler) save(message string, event *linebot.Event) {
 
 func (e ExpensesHandler) list(message string, event *linebot.Event) {
 
-	res, err := e.service.List(message, event.Source.UserID)
+	res, err := e.expenseService.List(message, event.Source.UserID)
 
 	if err != nil {
 		e.sendMessage(event.ReplyToken, err.Error())
@@ -68,13 +71,37 @@ func (e ExpensesHandler) list(message string, event *linebot.Event) {
 
 func (e ExpensesHandler) summary(message string, event *linebot.Event) {
 	fmt.Println("summary , " + event.Source.UserID)
-	res, err := e.service.Summary(message, event.Source.UserID)
+	res, err := e.expenseService.Summary(message, event.Source.UserID)
 
 	if err != nil {
 		e.sendMessageWithExample(event.ReplyToken, err.Error(), "คำสั่ง -> สรุป เดือน/ปี\nตย. -> สรุป 2/2023")
 		return
 	}
 	e.sendMessage(event.ReplyToken, res.Message)
+}
+
+func (e ExpensesHandler) horosz(event *linebot.Event) {
+	fmt.Println("horosz , " + event.Source.UserID)
+	res, err := e.horoszService.Run()
+
+	if err != nil {
+		e.sendMessageWithExample(event.ReplyToken, err.Error(), "เกิดข้อผิดพลาด")
+		return
+	}
+
+	fmt.Println(res)
+
+	lineMessages := []linebot.SendingMessage{}
+
+	for i := 0; i < 5; i++ {
+		lineMessages = append(lineMessages, linebot.NewTextMessage(res[i]))
+	}
+
+	lineMessages = append(lineMessages, linebot.NewImageMessage(res[5], res[5]))
+
+	if _, err := e.linebot.ReplyMessage(event.ReplyToken, lineMessages...).Do(); err != nil {
+		log.Print(err)
+	}
 }
 
 func (e ExpensesHandler) hello(event *linebot.Event) {

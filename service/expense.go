@@ -19,7 +19,6 @@ import (
 	"github.com/nilemarezz/flexi-chat-v2/dto"
 	"google.golang.org/api/googleapi"
 )
-
 type ExpensesService struct {
 	spreadsheet *spreadSheetService
 }
@@ -245,11 +244,11 @@ func buildList(m pdf.Maroto, contents [][]string) {
 	m.TableList(tableHeadings, contents, props.TableList{
 		HeaderProp: props.TableListContent{
 			Size:      14,
-			GridSizes: []uint{3, 1, 3, 5},
+			GridSizes: []uint{4, 1, 2, 5},
 		},
 		ContentProp: props.TableListContent{
 			Size:      12,
-			GridSizes: []uint{3, 1, 3, 5},
+			GridSizes: []uint{4, 1, 2, 5},
 		},
 		Align:                consts.Left,
 		AlternatedBackground: &lightPurpleColor,
